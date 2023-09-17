@@ -18,9 +18,8 @@ function Login() {
         console.log(response.data)
         if(response.data.status == "ok") {
           localStorage.setItem('token', response.data.token);
-          navigate("/home");
+          navigate("/dashboard");
         }
-
       })
     } catch (error) {
       console.log(error)
