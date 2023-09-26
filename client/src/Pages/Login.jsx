@@ -20,9 +20,12 @@ function Login() {
           localStorage.setItem('token', response.data.token);
           navigate("/dashboard");
         }
+        else {
+          console.log("Failed to authenticate")
+        }
       })
     } catch (error) {
-      console.log(error)
+      console.log("500 - Failed to authenticate " + error )
     }
 
   }

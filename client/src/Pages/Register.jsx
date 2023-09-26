@@ -17,7 +17,12 @@ function Register() {
       await axios.post('http://localhost:3001/register', {name,email,password})
       .then((response) => {
         console.log(response.data)
-        //navigate("/login")
+        if(response.status == 200) {
+          console.log(response.data)
+          navigate("/dashboard")
+        } else {
+          console.log(response.data)
+        }
       })
     } catch (error) {
       console.log(error)
@@ -37,9 +42,9 @@ function Register() {
           <input type="text" onChange={(e) => setEmail(e.target.value)} />
           <br />
           <label htmlFor="">Password</label>
-          <input type="text" onChange={(e) => setPassword(e.target.value)} />
+          <input type="password" autoComplete="on" onChange={(e) => setPassword(e.target.value)} />
           <br />
-          <input type="submit" value="Login" />
+          <input type="submit" value="Register" />
         </form>
       </div>
     </>

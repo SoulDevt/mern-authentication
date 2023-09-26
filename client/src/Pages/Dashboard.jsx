@@ -1,25 +1,38 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { decodeToken } from "react-jwt";
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const token = localStorage.getItem('token');
-  const decodedToken = decodeToken(token)
+  let decodedToken = '';
+
+  if(token) decodedToken = decodeToken(token);
+  let navigate = useNavigate()
 
   useEffect(() => {
     const fetchUsers = async () => {
       //token = localStorage.getItem('token');
       //const decodedToken = decodeToken(token)
       //console.log(decodedToken.email);
-      await axios.get('http://localhost:3001/users/' + decodedToken.email)
-      .then((response) => {
-       console.log(response.data)
-       setName(response.data.name);
-       setEmail(response.data.email);
-      })
+      if(token) {
+        await axios.get('http://localhost:3001/users/' + decodedToken.email, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then((response) => {
+         console.log(response.data)
+         setName(response.data.name);
+         setEmail(response.data.email);
+        })
+      } else {
+        localStorage.removeItem('token');
+        navigate('/')
+      }
     }
     fetchUsers();
   },[])
@@ -27,7 +40,13 @@ const Dashboard = () => {
   const handleUpdate= async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:3001/users/' + decodedToken.email, {name,email,password})
+      await axios.put('http://localhost:3001/users/' + decodedToken.email, {name,email,password}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        console.log(response.data)
+      })
     } catch (error) {
       console.error(error)
     }    
