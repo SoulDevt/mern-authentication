@@ -12,7 +12,7 @@ const Product = (props) => {
         <p>{price} €</p>
         <img src={img} />
         <button onClick={() => addItemToCart(id)}>Add to Cart{cartItems[id] > 0 ? "(" + cartItems[id] + ")" : null}</button>
-        <Link to="/product/:id">Details</Link>
+        <Link to={"/product/"+id}>Details</Link>
     </div>
   )
 }

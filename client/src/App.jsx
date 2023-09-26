@@ -10,6 +10,7 @@ import Shop from './Pages/shop/shop'
 import Cart from './Pages/cart/cart'
 import Navbar from "./components/Navbar"
 import {ShopContextProvider} from './context/context'
+import ProductDetail from './components/ProductDetail'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/dashboard" Component={Dashboard} />
           <Route path="/shop" Component={Shop} />
           <Route path="/cart" Component={Cart} />
+          <Route path="/product/:id" Component={ProductDetail} />
         </Routes>
       </BrowserRouter>
     </ShopContextProvider>
