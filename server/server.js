@@ -3,8 +3,13 @@ const mongoose = require('mongoose');
 const express = require('express')
 const cors = require('cors');
 const app = express()
+const Product = require('./models/product-model')
+
 //import users routes
 const userRoutes = require('./routes/Users')
+
+//import product routes
+const productRoutes = require('./routes/Product')
 
 
 //swagger
@@ -81,131 +86,28 @@ app.use(cors());
  *                   example: Bad credentials
  */
 
-  
-  
-// app.post('/login', async (req, res) => {
-//     // const saltRounds = 10;
-//     // const salt = bcrypt.genSaltSync(saltRounds);
-//     //const hashPassword = bcrypt.hashSync(req.body.password, salt);
-//     // console.log(checkUser.password)
-//     try {
-//         const findUser = await User.findOne({ email: req.body.email });
-//         if (findUser) {
-//             const checkPassword = bcrypt.compareSync(req.body.password, findUser.password);
-//             if (checkPassword) {
-//                 const token = await jwt.sign({ email: req.body.email }, "secret123")
-//                 res.json({ status: 'ok', token: token })
-//             } else {
-//                 res.json({ error: 'bad credentials' });
-//             }
-//         } else {
-//             res.status(401).json({ error: 'User doesnt exist' });
-//         }
-//         // console.log(checkPassword);
-//         // const user = await User.findOne({ email: req.body.email, password: req.body.password });
-
-//         // if (user) {
-//         //     const token = await jwt.sign({ email: req.body.email, name: req.body.name }, "secret123")
-//         //     res.json({ status: 'ok', token: token })
-//         // } else {
-//         //     res.json({ error: 'bad credentials' });
-//         // }
-//     } catch (error) {
-//         return console.error(error);
-//     }
-
-// });
-
-// app.post('/register', async (req, res) => {
-//     console.log(req.body)
-//     const { name, email, password } = req.body;
-//     //console.log("nom: " + name)
-//     const saltRounds = 10;
-//     const salt = bcrypt.genSaltSync(saltRounds);
-//     const hashPassword = bcrypt.hashSync(password, salt);
-//     try {
-//         const checkUser = await User.findOne({ email: email });
-//         console.log("resultat du check " + checkUser)
-//         if (checkUser) {
-//             return res.status(409).json('user already registered');
-//         } else {
-//             User.create({
-//                 name: name,
-//                 email: email,
-//                 password: hashPassword
-//             });
-//             res.status(200).json('registred successfully');
-//         }
-//     } catch (error) {
-//         return res.json({ error: error });
-//     }
-
-//     //res.json('access to home root');
-// });
-
-// app.get('/users/:email', async (req, res) => {
-//     console.log("launched + " + req.params.email)
-//     try {
-//         const currentUser = await User.findOne({ email: req.params.email });
-//         console.log(currentUser)
-//         res.json({ email: req.params.email, name: currentUser.name });
-//     } catch (error) {
-//         console.log(error)
-//     }
-
-//     // const { email } = req.params.email;
-//     // console.log("email: " + email)
-//     // try {
-//     //     res.json(quote);
-//     // } catch (error) {
-//     //     return res.json({ error: error });
-//     // }
-
-//     //res.json('access to home root');
-// });
-
-// app.put('/users/:email', async (req, res) => {
-//     console.log("launched")
-//     try {
-//         // const currentUser = await User.findOne({ email: req.params.email });
-//         // console.log(req.headers.authorization)
-//         const splitToken = req.headers.authorization.split(' ')
-//         const token = splitToken[1]
-//         const decoded = jwt.verify(token, 'secret123')
-//         console.log(decoded)
-//         //const email = decoded.email;
-//         // console.log(email)
-//         if (decoded.email) {
-//             if (req.body.password) {
-//                 const saltRounds = 10;
-//                 const salt = bcrypt.genSaltSync(saltRounds);
-//                 const hashPassword = bcrypt.hashSync(req.body.password, salt);
-//                 await User.findOneAndUpdate({ email: req.params.email }, { name: req.body.name, email: req.body.email, password: hashPassword });
-//                 console.log("Updated successfully")
-//             } else {
-//                 await User.findOneAndUpdate({ email: req.params.email }, { name: req.body.name, email: req.body.email });
-//                 console.log("Updated successfully")
-//             }
-            
-//             //res.json({ email: req.params.email, name: currentUser.name });
-//         }
-//     } catch (error) {
-//         console.log(error)
-//     }
-
-//     // const { email } = req.params.email;
-//     // console.log("email: " + email)
-//     // try {
-//     //     res.json(quote);
-//     // } catch (error) {
-//     //     return res.json({ error: error });
-//     // }
-
-//     //res.json('access to home root');
-// });
-
 //users routes
 app.use(userRoutes)
+//product routes
+app.use(productRoutes)
+
+// app.post('/shop/create-product', async (req, res) => {
+//   const { name, description, price, categories, img} = req.body;
+//   console.log(name, description, price, categories,img);
+//   try {
+//     await Product.create(
+//       {
+//         name: name, 
+//         description: description, 
+//         price: price, 
+//         category: categories, 
+//         imageUrl: img}
+//       )
+//     res.status(200).json("Product created successfully")
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
 
 
 app.listen('3001', () => {
