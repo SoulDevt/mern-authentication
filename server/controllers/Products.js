@@ -14,10 +14,21 @@ const createProduct = async (req, res) => {
         )
       res.status(200).json("Product created successfully")
     } catch (error) {
-      console.log(error)
+      res.status((500)).json({ error: "Failed to create Product"})
+    }
+}
+
+const fetchAllProducts = async (req, res) => {
+    try {
+        console.log("launched")
+        const products = await Product.find()
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(500).json({ error: "Failed to load products"})
     }
 }
 
 module.exports = {
-    createProduct
+    createProduct,
+    fetchAllProducts
 }

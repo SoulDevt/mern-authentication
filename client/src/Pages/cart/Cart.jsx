@@ -6,7 +6,7 @@ import CartItem from './cartItem'
 import { Link } from 'react-router-dom'
 
 const Cart = () => {
-  const {cartItems, getTotalCartAmount} = useContext(ShopContext)
+  const {cartItems, getTotalCartAmount, products} = useContext(ShopContext)
   const totalAmount = getTotalCartAmount();
   console.log(cartItems)
   return (
@@ -14,11 +14,11 @@ const Cart = () => {
       <h1>Cart</h1>
       <div className='products'>           
           {
-              PRODUCTS.map((product, index) => {
+              products.map((product, index) => {
                 //console.log(product)
-                if(cartItems[product.id] > 0) {
+                if(cartItems[product._id] > 0) {
                   return <CartItem key={index} product={product} />
-                }
+                } 
               })
           }
       </div>

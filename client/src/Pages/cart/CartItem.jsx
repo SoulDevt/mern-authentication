@@ -1,12 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ShopContext } from '../../context/context'
 import { Link } from 'react-router-dom'
 
 const CartItem = ({product}) => {
+  useEffect(() => {
+    console.log("launched");
+    console.log("products:" + product)
+  },[])
 const {cartItems, addItemToCart, removeItemToCart, updateItemToCart} = useContext(ShopContext)
   return (
         <div className="product">
-            <h3>{product.title}</h3>
+            <h3>{product.name}</h3>
             <p>{product.description}</p>
             <p>{product.price} €</p>
             <img src={product.img} />
