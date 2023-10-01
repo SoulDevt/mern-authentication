@@ -6,7 +6,6 @@ import axios from 'axios'
 
 const Shop = () => {
   const [products, setProducts] = useState([])
-  const [search, setSearch] = useState('')
   const [originalProducts, setOriginalProducts] = useState([]) // Ajoutez un état pour stocker la liste originale des produits
 
 
@@ -30,19 +29,20 @@ const Shop = () => {
   },[])
 
   const handleChange = async (e) => {
-    setSearch(e.target.value)
     const filteredProducts = originalProducts.filter(product =>
       product.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
     // Mettre à jour la liste des produits filtrés
     setProducts(filteredProducts);
   }
+
+
   return (
     <div>
         <h1>SHOP</h1>
         <div>
             <label htmlFor="">Search: </label>
-            <input type="text" value={search} onChange={handleChange}/>
+            <input type="text" onChange={handleChange}/>
         </div>
         <div className='products'>           
             {

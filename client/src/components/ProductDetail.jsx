@@ -10,6 +10,7 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchProduct = async() => {
             const currentProduct = await products.find(product => product._id === id)
+            //console.log(currentProduct)
             console.log(products)
             if(currentProduct) {
                 await setProduct(currentProduct)
