@@ -5,6 +5,12 @@ const cors = require('cors');
 const app = express()
 const Product = require('./models/product-model')
 
+//stripe
+const stripe = require('stripe')('sk_test_51KNlxHJpM42GLk7JDZJE6bm5N9z6ddPmt0FFITEiNrtI4alKsbUMaGnbRHrIFZOQmyJccTlr6mRxTZUGsiSwWAVp00O5saZViu');
+app.use(express.static('public'));
+
+//end Stripe
+
 //import users routes
 const userRoutes = require('./routes/Users')
 
@@ -91,6 +97,69 @@ app.use(userRoutes)
 //product routes
 app.use(productRoutes)
 
+//Stripe Routes
+app.post('/checkout', async (req, res) => {
+  const items = req.body
+
+  // Créez un tableau pour stocker les line_items de Stripe
+  const lineItems = [];
+
+  for (const productId in items) {
+    const quantity = items[productId];
+
+    // Ajoutez l'élément au tableau lineItems avec la quantité spécifiée et l'ID du produit comme Price ID
+    // lineItems.push({
+    //   price: productId, // L'ID du produit est utilisé comme Price ID
+    //   quantity: quantity,
+    // });
+
+    lineItems.push({
+      price_data: {
+        currency: 'usd',
+        unit_amount: 3000,
+        tax_behavior: "exclusive",
+        product_data: {
+          name: 'T-shirt',
+          description: 'Comfortable cotton t-shirt',
+          images: ['https://example.com/t-shirt.png'],
+        },
+        quantity: 1,
+      }
+    });
+  }
+
+  console.log(lineItems)
+  
+
+
+  const YOUR_DOMAIN = "http://localhost:5173/shop";
+  const session = await stripe.checkout.sessions.create({
+    // line_items: lineItems,
+    line_items: [{
+      price_data: {
+        currency: 'usd',
+        unit_amount: 3000,
+        tax_behavior: "exclusive",
+        product_data: {
+          name: 'T-shirt',
+          description: 'Comfortable cotton t-shirt',
+          images: ['https://example.com/t-shirt.png'],
+        },
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+    automatic_tax: {enabled: true},
+  });
+
+  res.redirect(303, session.url);
+});
+
+
+//End Stripe routes
+
 // app.post('/shop/create-product', async (req, res) => {
 //   const { name, description, price, categories, img} = req.body;
 //   console.log(name, description, price, categories,img);
@@ -108,6 +177,8 @@ app.use(productRoutes)
 //     console.log(error)
 //   }
 // })
+
+
 
 
 app.listen('3001', () => {

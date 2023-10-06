@@ -14,9 +14,9 @@ const {cartItems, addItemToCart, removeItemToCart, updateItemToCart} = useContex
             <p>{product.description}</p>
             <p>{product.price} €</p>
             <img src={product.img} />
-            <button onClick={() => removeItemToCart(product.id)}> - </button>
+            <button onClick={() => removeItemToCart(product._id)}> - </button>
             <input type="text" value={cartItems[product._id]} onChange={(e) => updateItemToCart(Number(e.target.value), product.id)} />
-            <button onClick={() => addItemToCart(product.id)}> + </button>
+            <button onClick={() => addItemToCart(product._id)}> + </button>
         </div>
   )
 }

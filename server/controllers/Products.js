@@ -10,7 +10,8 @@ const createProduct = async (req, res) => {
           description: description, 
           price: price, 
           category: categories, 
-          imageUrl: img}
+          imageUrl: img
+        }
         )
       res.status(200).json("Product created successfully")
     } catch (error) {
