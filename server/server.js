@@ -99,62 +99,36 @@ app.use(productRoutes)
 
 //Stripe Routes
 app.post('/checkout', async (req, res) => {
+  console.log("launched checkout")
   const items = req.body
+  const lineItems = []
 
-  // Créez un tableau pour stocker les line_items de Stripe
-  const lineItems = [];
-
-  for (const productId in items) {
-    const quantity = items[productId];
-
-    // Ajoutez l'élément au tableau lineItems avec la quantité spécifiée et l'ID du produit comme Price ID
-    // lineItems.push({
-    //   price: productId, // L'ID du produit est utilisé comme Price ID
-    //   quantity: quantity,
-    // });
-
+  items.map((item) => {
     lineItems.push({
       price_data: {
         currency: 'usd',
-        unit_amount: 3000,
-        tax_behavior: "exclusive",
         product_data: {
-          name: 'T-shirt',
-          description: 'Comfortable cotton t-shirt',
-          images: ['https://example.com/t-shirt.png'],
+          name: item.name,
         },
-        quantity: 1,
-      }
-    });
-  }
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    })
+  })
 
   console.log(lineItems)
-  
-
 
   const YOUR_DOMAIN = "http://localhost:5173/shop";
   const session = await stripe.checkout.sessions.create({
-    // line_items: lineItems,
-    line_items: [{
-      price_data: {
-        currency: 'usd',
-        unit_amount: 3000,
-        tax_behavior: "exclusive",
-        product_data: {
-          name: 'T-shirt',
-          description: 'Comfortable cotton t-shirt',
-          images: ['https://example.com/t-shirt.png'],
-        },
-      },
-      quantity: 1,
-    }],
+    line_items: lineItems,
     mode: 'payment',
-    success_url: `${YOUR_DOMAIN}?success=true`,
-    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
-    automatic_tax: {enabled: true},
+    success_url: 'http://localhost:5173/success.html',
+    cancel_url: 'http://localhost:5173/cancel.html',
   });
 
-  res.redirect(303, session.url);
+  //res.redirect(303, session.url);
+  console.log("url: " + session.url)
+  return res.json({url: session.url})
 });
 
 

@@ -3,12 +3,13 @@ import React, { useContext, useState } from 'react'
 //import Product from '../../components/Product'
 import { ShopContext } from '../../context/context'
 import CartItem from './cartItem'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Cart = () => {
   const {cartItems, getTotalCartAmount, products} = useContext(ShopContext)
   const totalAmount = getTotalCartAmount();
+  const navigate = useNavigate()
   //console.log(cartItems)
 
     // Fonction pour obtenir les détails complets des produits dans le panier
@@ -24,6 +25,7 @@ const Cart = () => {
             quantity: cartItems[productId],
             name: product.name,
             description: product.description,
+            price: product.price,
             img: product.imageUrl,
           });
         }
@@ -36,9 +38,11 @@ const Cart = () => {
       const detailedCartItems = getDetailedCartItems();
       console.log(detailedCartItems);
       console.log(cartItems);
-      await axios.post("http://localhost:3001/checkout", cartItems)
-      .then(response => {
-        console.log("réponse: " + response)
+      // await axios.post("http://localhost:3001/checkout", cartItems)
+      await axios.post("http://localhost:3001/checkout", detailedCartItems)
+      .then((response) => {
+        console.log(response.data.url)
+        window.location.href = response.data.url
       })
     } catch (error) {
       console.log("error: " + error)
