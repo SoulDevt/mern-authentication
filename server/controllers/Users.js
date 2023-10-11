@@ -12,7 +12,7 @@ const login = async (req, res) => {
             if (findUser) {
                 const checkPassword = bcrypt.compareSync(req.body.password, findUser.password);
                 if (checkPassword) {
-                    const token = await jwt.sign({ email: req.body.email }, "secret123")
+                    const token = await jwt.sign({ email: req.body.email, id: findUser._id }, "secret123", { expiresIn: '2h' })
                     res.json({ status: 'ok', token: token })
                 } else {
                     res.json({ error: 'bad credentials' });

@@ -14,8 +14,11 @@ app.use(express.static('public'));
 //import users routes
 const userRoutes = require('./routes/Users')
 
-//import product routes
+//import products routes
 const productRoutes = require('./routes/Product')
+
+//import comments routes
+const commentRoutes = require('./routes/Comment')
 
 
 //swagger
@@ -96,62 +99,48 @@ app.use(cors());
 app.use(userRoutes)
 //product routes
 app.use(productRoutes)
+//product routes
+app.use(commentRoutes)
 
 //Stripe Routes
 app.post('/checkout', async (req, res) => {
-  console.log("launched checkout")
-  const items = req.body
-  const lineItems = []
-
-  items.map((item) => {
-    lineItems.push({
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: item.name,
+  try {
+    console.log("launched checkout")
+    const items = req.body
+    const lineItems = []
+  
+    items.map((item) => {
+      lineItems.push({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: item.name,
+          },
+          unit_amount: item.price * 100,
         },
-        unit_amount: item.price * 100,
-      },
-      quantity: item.quantity,
+        quantity: item.quantity,
+      })
     })
-  })
-
-  console.log(lineItems)
-
-  const YOUR_DOMAIN = "http://localhost:5173/shop";
-  const session = await stripe.checkout.sessions.create({
-    line_items: lineItems,
-    mode: 'payment',
-    success_url: 'http://localhost:5173/success.html',
-    cancel_url: 'http://localhost:5173/cancel.html',
-  });
-
-  //res.redirect(303, session.url);
-  console.log("url: " + session.url)
-  return res.json({url: session.url})
+  
+    console.log(lineItems)
+  
+    const YOUR_DOMAIN = "http://localhost:5173/";
+    const session = await stripe.checkout.sessions.create({
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: `${YOUR_DOMAIN}checkout/success`,
+      cancel_url: `${YOUR_DOMAIN}checkout/cancel`,
+    });
+  
+    //res.redirect(303, session.url);
+    console.log("url: " + session.url)
+    res.json({url: session.url})
+    
+  } catch (error) {
+    res.json({error: error})
+  }
 });
-
-
 //End Stripe routes
-
-// app.post('/shop/create-product', async (req, res) => {
-//   const { name, description, price, categories, img} = req.body;
-//   console.log(name, description, price, categories,img);
-//   try {
-//     await Product.create(
-//       {
-//         name: name, 
-//         description: description, 
-//         price: price, 
-//         category: categories, 
-//         imageUrl: img}
-//       )
-//     res.status(200).json("Product created successfully")
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
-
 
 
 

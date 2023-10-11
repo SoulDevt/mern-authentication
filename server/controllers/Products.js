@@ -21,7 +21,7 @@ const createProduct = async (req, res) => {
 
 const fetchAllProducts = async (req, res) => {
     try {
-        console.log("launched")
+        console.log("fetch all products launched")
         const products = await Product.find()
         res.status(200).json(products)
     } catch (error) {
@@ -29,7 +29,18 @@ const fetchAllProducts = async (req, res) => {
     }
 }
 
+const fetchProductById = async (req, res) => {
+  console.log("fetch one product launched")
+  try {
+      const product = await Product.findById({ _id: req.params.id})
+      res.status(200).json(product)
+  } catch (error) {
+      res.status(500).json({ error: "Failed to load products"})
+  }
+}
+
 module.exports = {
     createProduct,
-    fetchAllProducts
+    fetchAllProducts,
+    fetchProductById
 }

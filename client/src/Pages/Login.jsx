@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { UserContext } from '../context/user-context'
 
 
 function Login() {
 
   const[email, setEmail] = useState('')
   const[password, setPassword] = useState('')
+  const { setToken } = useContext(UserContext)
 
   const navigate = useNavigate();
 
@@ -18,6 +20,7 @@ function Login() {
         console.log(response.data)
         if(response.data.status == "ok") {
           localStorage.setItem('token', response.data.token);
+          setToken(response.data.token);
           navigate("/dashboard");
         }
         else {
