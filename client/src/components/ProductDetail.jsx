@@ -8,7 +8,6 @@ import jwtDecode from 'jwt-decode';
 import Comments from './comments/comments'
 
 
-
 const ProductDetail = () => {
     const {cartItems, addItemToCart, products} = useContext(ShopContext)
     const [product, setProduct] = useState(null)
@@ -17,9 +16,25 @@ const ProductDetail = () => {
     // const { token } = useContext(UserContext)
     const token = localStorage.getItem('token')
     const decodedToken = jwtDecode(token)
-    console.log(decodedToken)
+    // console.log(decodedToken)
     const { id } = useParams()
 
+    
+
+    const fetchComments = async () => {
+        try {
+            await axios.get(`${import.meta.env.VITE_API_URL}/products/comments`)
+            .then((response) => {
+                //console.log(response.data)
+                const getComments = response.data.filter((comment) => comment.productId === id)
+                //console.log(getComments)
+                setAllComments(getComments)
+                console.log("launched comments")
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         const fetchProduct = async() => {
@@ -46,16 +61,7 @@ const ProductDetail = () => {
         fetchProduct()
 
         //fetch comments
-        const fetchComments = async () => {
-            try {
-                await axios.get(`${import.meta.env.VITE_API_URL}/products/comments`)
-                .then((response) => {
-                    setAllComments(response.data)
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
+
         fetchComments();
         //end fetch comments
     },[])
@@ -65,7 +71,9 @@ const ProductDetail = () => {
             //console.log(import.meta.env.VITE_API_URL)
             await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, {comment, id, userId: decodedToken.id})
             .then((response) => {
-                console.log(response)
+                // console.log(response);
+                setComment('');
+                console.log(fetchComments())
             })
             .catch((error) => {
                 console.log(error)
@@ -74,8 +82,9 @@ const ProductDetail = () => {
             console.log(error)
         }
     }
+    // console.log("comment content:" + comment)
 
-    
+    //console.log(allComments)
   return (
     <div>
         <h1>{product?.name}</h1>
@@ -88,7 +97,7 @@ const ProductDetail = () => {
             (
                 <>
                 <p>Laisser un commentaire</p>
-                <textarea name="" id="" cols="30" rows="10" onChange={(e) => setComment(e.target.value)}></textarea>
+                <textarea name="" id="" cols="30" rows="10" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                 <button onClick={handleComment}>Submit</button>
                 </>
             ) 
@@ -101,7 +110,7 @@ const ProductDetail = () => {
         {
             allComments ? (
                 allComments.map(comment => (
-                    <Comments comment={comment}></Comments>
+                    <Comments comment={comment} key={comment._id}></Comments>
                 ))
             )
             :
