@@ -16,8 +16,10 @@ const ProductDetail = () => {
     // const { token } = useContext(UserContext)
     const token = localStorage.getItem('token')
     const decodedToken = jwtDecode(token)
+
     // console.log(decodedToken)
     const { id } = useParams()
+
     
 
     const fetchComments = async () => {
@@ -64,7 +66,6 @@ const ProductDetail = () => {
         fetchProduct()
 
         //fetch comments
-
         fetchComments();
         //end fetch comments
     },[])
@@ -74,7 +75,7 @@ const ProductDetail = () => {
             //console.log(import.meta.env.VITE_API_URL)
             await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, {comment, id, userId: decodedToken.id})
             .then((response) => {
-                // console.log(response);
+                console.log(response);
                 // setAllComments
                 setComment('');
                 fetchComments();
@@ -117,7 +118,7 @@ const ProductDetail = () => {
         {
             allComments ? (
                 allComments.map(comment => (
-                    <Comments comment={comment} key={comment._id}></Comments>
+                    <Comments comment={comment}  key={comment._id}></Comments>
                 ))
             )
             :

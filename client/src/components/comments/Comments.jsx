@@ -1,14 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './comments.css'
+import axios from 'axios'
 const Comments = ({comment}) => {
-//   useEffect(() => {
-//     const getUser = async () => {
-//         axios.get(`${import.meta.env.VITE_API_URL}/products/comments`)
-//     }
-//   })
+  const [username, setUsername] = useState()
+
+  const fetchUserById = async () => {
+    try {
+        await axios.get(`${import.meta.env.VITE_API_URL}/users/infos/${comment.userId}`)
+        .then((response) => {
+            setUsername(response.data.name)
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+useEffect(() => {
+  //fetch Username
+  fetchUserById();
+  //end fetch Username
+},[])
+
+
   return (
     <div className="comment">
-        <p>Author: {comment.userId}</p>
+        <p>Author: {username}</p>
         <p>{comment.text}</p>
     </div>
   )

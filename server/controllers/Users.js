@@ -122,9 +122,21 @@ const editProfile = async (req, res) => {
     //res.json('access to home root');
 }
 
+const findUserById = async (req, res) => {
+    console.log("launched + " + req.params.id)
+    try {
+        const currentUser = await User.findOne({ _id: req.params.id });
+        console.log(currentUser)
+        res.json({ name: currentUser.name });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     login,
     register,
     showProfile,
-    editProfile
+    editProfile,
+    findUserById
 }
