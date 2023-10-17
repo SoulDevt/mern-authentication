@@ -18,18 +18,21 @@ const ProductDetail = () => {
     const decodedToken = jwtDecode(token)
     // console.log(decodedToken)
     const { id } = useParams()
-
     
 
     const fetchComments = async () => {
         try {
             await axios.get(`${import.meta.env.VITE_API_URL}/products/comments`)
             .then((response) => {
-                //console.log(response.data)
+                // console.log(response.data)
                 const getComments = response.data.filter((comment) => comment.productId === id)
                 //console.log(getComments)
                 setAllComments(getComments)
-                console.log("launched comments")
+                // console.log("launched comments")
+                // console.log(getComments)
+                // allCommentsFiltered = getComments;
+                // console.log(allCommentsFiltered)
+                return getComments;
             })
         } catch (error) {
             console.log(error)
@@ -72,8 +75,12 @@ const ProductDetail = () => {
             await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, {comment, id, userId: decodedToken.id})
             .then((response) => {
                 // console.log(response);
+                // setAllComments
                 setComment('');
-                console.log(fetchComments())
+                fetchComments();
+                // console.log(allCommentsFiltered);
+                // setAllComments(fetchComments())
+                // console.log(allComments);
             })
             .catch((error) => {
                 console.log(error)

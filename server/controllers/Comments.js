@@ -11,7 +11,9 @@ const createComment = async (req, res) => {
             productId: id,
             userId: userId
         });
-        res.status(200).json('comment added successfully');
+        // const allComments = await fetchAllComments();
+        // console.log(allProducts)
+        res.status(200).json({success: 'comment added successfully'});
     }
 }
 
