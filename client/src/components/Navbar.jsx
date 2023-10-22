@@ -2,6 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
+  const logout = () => {
+    localStorage.removeItem("token");
+    return <Navigate to={"/"} />;
+  }
   return (
     // <div>
     //     <Link to="/shop">Shop</Link> 
@@ -43,7 +47,7 @@ const Navbar = () => {
 
         <Link to="/register" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Register</Link> 
 
-        <Link to="/register" className='block mt-4 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Logout</Link> 
+        <Link className='block mt-4 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600' onClick={logout}>Logout</Link> 
 
       </div>
     </nav>
