@@ -6,8 +6,8 @@ import { UserContext } from '../context/user-context'
 
 function Login() {
 
-  const[email, setEmail] = useState('')
-  const[password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const { setToken } = useContext(UserContext)
 
   const navigate = useNavigate();
@@ -15,20 +15,20 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/login', {email,password})
-      .then((response) => {
-        console.log(response.data)
-        if(response.data.status == "ok") {
-          localStorage.setItem('token', response.data.token);
-          setToken(response.data.token);
-          navigate("/dashboard");
-        }
-        else {
-          console.log("Failed to authenticate")
-        }
-      })
+      await axios.post('http://localhost:3001/login', { email, password })
+        .then((response) => {
+          console.log(response.data)
+          if (response.data.status == "ok") {
+            localStorage.setItem('token', response.data.token);
+            setToken(response.data.token);
+            navigate("/dashboard");
+          }
+          else {
+            console.log("Failed to authenticate")
+          }
+        })
     } catch (error) {
-      console.log("500 - Failed to authenticate " + error )
+      console.log("500 - Failed to authenticate " + error)
     }
 
   }
@@ -46,7 +46,7 @@ function Login() {
         </form>
         <Link to="/register">Create an account</Link>
       </div> */}
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
@@ -59,7 +59,7 @@ function Login() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
@@ -69,6 +69,7 @@ function Login() {
                   id="email"
                   name="email"
                   type="email"
+                  onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -92,6 +93,7 @@ function Login() {
                   id="password"
                   name="password"
                   type="password"
+                  onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -111,9 +113,7 @@ function Login() {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
-            </a>
+            <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Register</Link>
           </p>
         </div>
       </div>

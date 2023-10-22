@@ -20,8 +20,6 @@ const ProductDetail = () => {
     // console.log(decodedToken)
     const { id } = useParams()
 
-    
-
     const fetchComments = async () => {
         try {
             await axios.get(`${import.meta.env.VITE_API_URL}/products/comments`)

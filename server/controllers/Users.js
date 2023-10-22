@@ -7,6 +7,10 @@ const login = async (req, res) => {
         // const salt = bcrypt.genSaltSync(saltRounds);
         //const hashPassword = bcrypt.hashSync(req.body.password, salt);
         // console.log(checkUser.password)
+        // check if there is email or password
+        if (!req.body.email || !req.body.password) {
+            return res.status(400).json('Email and password are required.');
+        }
         try {
             const findUser = await User.findOne({ email: req.body.email });
             if (findUser) {
@@ -37,7 +41,12 @@ const login = async (req, res) => {
 const register = async (req, res) => {
     console.log(req.body)
     const { name, email, password } = req.body;
-    //console.log("nom: " + name)
+    console.log(req.body)
+
+    //check if there is email or password
+    if (!email || !password) {
+        return res.status(400).json('Email and password are required.');
+    }
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashPassword = bcrypt.hashSync(password, salt);
