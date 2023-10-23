@@ -9,7 +9,8 @@ function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { token, setToken } = useContext(UserContext)
+  // const { token, setToken } = useContext(UserContext)
+  const { login } = useContext(UserContext)
   const tokenStorage = localStorage.getItem('token')
 
   const navigate = useNavigate();
@@ -22,7 +23,8 @@ function Login() {
           console.log(response.data)
           if (response.data.status == "ok") {
             localStorage.setItem('token', response.data.token);
-            setToken(response.data.token);
+            // setToken(response.data.token);
+            login()
             navigate("/dashboard");
           }
           else {

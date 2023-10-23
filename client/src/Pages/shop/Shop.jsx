@@ -11,6 +11,7 @@ const Shop = () => {
 
   useEffect(() => {
     try {
+      // debugger;
       console.log("useEffect front launched")
       const getProducts = async () => {
         await axios.get("http://localhost:3001/shop")

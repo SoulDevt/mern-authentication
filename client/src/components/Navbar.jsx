@@ -1,11 +1,39 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, Navigate } from 'react-router-dom'
+import { decodeToken } from "react-jwt";
+import { UserContext } from '../context/user-context';
+
 
 const Navbar = () => {
-  const logout = () => {
-    localStorage.removeItem("token");
-    return <Navigate to={"/"} />;
-  }
+
+  // const verifyToken = (token) => {
+  //   try {
+  //     // Remplacez 'YOUR_SECRET_KEY' par votre clé secrète utilisée pour signer les tokens sur le serveur
+  //     const decodedToken = decodeToken(token);
+  //     console.log(decodedToken)
+  //     if (decodedToken.exp * 1000 > Date.now()) {
+  //       // Le token est valide et non expiré
+  //       return true;
+  //     } else if(!decodedToken) {
+  //       console.log("fake token")
+  //       localStorage.removeItem('token')
+  //     }
+  //   } catch (error) {
+  //     console.log("token expiré");
+  //   }
+  //   return false;
+  // };
+  
+
+  // const logout = () => {
+  //   localStorage.removeItem("token");
+  //   return <Navigate to={"/"} />;
+  // }
+
+  // const token = localStorage.getItem("token")
+
+  const { isLoggedIn, logout } = useContext(UserContext);
+  
   return (
     // <div>
     //     <Link to="/shop">Shop</Link> 
@@ -43,11 +71,18 @@ const Navbar = () => {
 
       </div>
       <div className="hidden w-full navbar-menu lg:order-3 lg:block lg:w-2/5 lg:text-right">
-        <Link to="/" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Login</Link> 
-
-        <Link to="/register" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Register</Link> 
-
-        <Link className='block mt-4 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600' onClick={logout}>Logout</Link> 
+        {
+          isLoggedIn ? 
+          (
+            <Link className='block mt-4 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600' onClick={logout}>Logout</Link> 
+          ) :
+          (
+            <>
+            <Link to="/" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Login</Link> 
+            <Link to="/register" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Register</Link> 
+            </>
+          )
+        }
 
       </div>
     </nav>

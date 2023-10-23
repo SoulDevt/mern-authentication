@@ -13,8 +13,8 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null)
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
-    // const { token } = useContext(UserContext)
-    const token = localStorage.getItem('token')
+    // const { token, setToken } = useContext(UserContext)
+    let token = localStorage.getItem('token')
     const decodedToken = jwtDecode(token)
 
     // console.log(decodedToken)
