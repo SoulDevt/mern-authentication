@@ -39,7 +39,7 @@ const Cart = () => {
       console.log(detailedCartItems);
       console.log(cartItems);
       // await axios.post("http://localhost:3001/checkout", cartItems)
-      await axios.post("http://localhost:3001/checkout", detailedCartItems)
+      await axios.post(`${import.meta.env.VITE_API_URL}/checkout`, detailedCartItems)
       .then((response) => {
         console.log(response.data.url)
         window.location.href = response.data.url

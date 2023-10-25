@@ -19,7 +19,7 @@ const Dashboard = () => {
       //const decodedToken = decodeToken(token)
       //console.log(decodedToken.email);
       if(token) {
-        await axios.get('http://localhost:3001/users/' + decodedToken.email, {
+        await axios.get(`${import.meta.env.VITE_API_URL}/users/` + decodedToken.email, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -40,7 +40,7 @@ const Dashboard = () => {
   const handleUpdate= async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:3001/users/' + decodedToken.email, {name,email,password}, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/users/` + decodedToken.email, {name,email,password}, {
         headers: {
           Authorization: `Bearer ${token}`
         }

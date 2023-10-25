@@ -27,7 +27,7 @@ export const ShopContextProvider = ( {children} ) => {
         try {
           console.log("useEffect context launched")
           const getProducts = async () => {
-            await axios.get("http://localhost:3001/shop")
+            await axios.get(`${import.meta.env.VITE_API_URL}/shop`)
             .then((response) => {
               //console.log(response.data)
               setProducts(response.data)

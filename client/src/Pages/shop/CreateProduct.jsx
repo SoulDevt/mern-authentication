@@ -23,7 +23,7 @@ const CreateProduct = () => {
     e.preventDefault();
     console.log(formData);
     // Envoyez les données du formulaire ou effectuez toute autre action nécessaire ici
-    await axios.post("http://localhost:3001/shop/create-product", formData)
+    await axios.post(`${import.meta.env.VITE_API_URL}/shop/create-product`, formData)
     .then((response) => {
         console.log(response);
     })

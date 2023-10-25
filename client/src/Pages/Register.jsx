@@ -15,7 +15,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/register', { name, email, password })
+      await axios.post(`${import.meta.env.VITE_API_URL}/register`, { name, email, password })
         .then((response) => {
           console.log(response.data)
           if (response.status == 200) {
