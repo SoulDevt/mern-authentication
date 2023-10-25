@@ -16,7 +16,7 @@ const login = async (req, res) => {
             if (findUser) {
                 const checkPassword = bcrypt.compareSync(req.body.password, findUser.password);
                 if (checkPassword) {
-                    const token = await jwt.sign({ email: req.body.email, id: findUser._id }, "secret123", { expiresIn: '2h' })
+                    const token = await jwt.sign({ email: req.body.email, id: findUser._id }, process.env['JWT_SECRET_KEY'], { expiresIn: '1h' })
                     res.json({ status: 'ok', token: token })
                 } else {
                     res.json({ error: 'bad credentials' });
@@ -28,7 +28,7 @@ const login = async (req, res) => {
             // const user = await User.findOne({ email: req.body.email, password: req.body.password });
     
             // if (user) {
-            //     const token = await jwt.sign({ email: req.body.email, name: req.body.name }, "secret123")
+            //     const token = await jwt.sign({ email: req.body.email, name: req.body.name }, process.env['JWT_SECRET_KEY'])
             //     res.json({ status: 'ok', token: token })
             // } else {
             //     res.json({ error: 'bad credentials' });
@@ -98,7 +98,7 @@ const editProfile = async (req, res) => {
         // console.log(req.headers.authorization)
         const splitToken = req.headers.authorization.split(' ')
         const token = splitToken[1]
-        const decoded = jwt.verify(token, 'secret123')
+        const decoded = jwt.verify(token, process.env['JWT_SECRET_KEY'])
         console.log(decoded)
         //const email = decoded.email;
         // console.log(email)
