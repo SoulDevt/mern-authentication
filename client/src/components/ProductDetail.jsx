@@ -5,7 +5,7 @@ import { ShopContext } from '../context/context'
 import axios from 'axios'
 import { UserContext } from '../context/user-context'
 import jwtDecode from 'jwt-decode';
-import Comments from './comments/comments'
+import Comments from './comments/Comments'
 
 
 const ProductDetail = () => {
