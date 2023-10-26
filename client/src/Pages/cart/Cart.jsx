@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 //import { PRODUCTS } from '../shop/items'
 //import Product from '../../components/Product'
 import { ShopContext } from '../../context/context'
-import CartItem from './cartItem'
+import CartItem from './CartItem'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
