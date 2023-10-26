@@ -10,7 +10,7 @@ import {ShopContextProvider} from './context/context'
 import {UserContextProvider} from './context/user-context'
 import ProductDetail from './components/ProductDetail'
 import CreateProduct from './Pages/shop/CreateProduct'
-import Success from './Pages/payment/success'
+import Success from './Pages/payment/Success'
 import Cancel from './Pages/payment/cancel'
 import Shop from './Pages/shop/Shop'
 
