@@ -4,7 +4,7 @@ import Login from './Pages/Login'
 import Register from './Pages/Register'
 import Dashboard from './Pages/Dashboard'
 // import Shop from './Pages/shop/shop'
-import Cart from './Pages/cart/cart'
+import Cart from './Pages/cart/Cart'
 import Navbar from "./components/Navbar"
 import {ShopContextProvider} from './context/context'
 import {UserContextProvider} from './context/user-context'
