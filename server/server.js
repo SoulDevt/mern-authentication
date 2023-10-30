@@ -4,6 +4,7 @@ const express = require('express')
 const cors = require('cors');
 const app = express()
 const Product = require('./models/product-model')
+const cookieParser = require('cookie-parser');
 
 //stripe
 const stripe = require('stripe')('sk_test_51KNlxHJpM42GLk7JDZJE6bm5N9z6ddPmt0FFITEiNrtI4alKsbUMaGnbRHrIFZOQmyJccTlr6mRxTZUGsiSwWAVp00O5saZViu');
@@ -53,7 +54,11 @@ mongoose.connect(process.env['MONGO_URI'], { useNewUrlParser: true, useUnifiedTo
 
 //middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:5173'
+}));
+app.use(cookieParser())
 
 
   /**

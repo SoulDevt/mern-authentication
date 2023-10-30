@@ -10,7 +10,7 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   // const { token, setToken } = useContext(UserContext)
-  const { login } = useContext(UserContext)
+  const { login, userEmailConnected, setUserId, setUserEmailConnected, userId } = useContext(UserContext)
   const tokenStorage = localStorage.getItem('token')
 
   const navigate = useNavigate();
@@ -18,14 +18,15 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password })
+      await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password }, { withCredentials: true })
         .then((response) => {
-          console.log(response.data)
           if (response.data.status == "ok") {
-            localStorage.setItem('token', response.data.token);
-            // setToken(response.data.token);
-            login()
+            const { email, id } = response.data;
+            // setUserEmailConnected(response.data.email);
+            // setUserId(response.data.id);
+            login(email, id)
             navigate("/dashboard");
+            console.log(response.data)
           }
           else {
             console.log("Failed to authenticate")
@@ -36,6 +37,7 @@ function Login() {
     }
 
   }
+
 
   return (
     <>

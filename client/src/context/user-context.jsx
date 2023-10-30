@@ -13,14 +13,19 @@ export const UserContextProvider = ( {children} ) => {
     // },[])
 
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+    const [userEmailConnected, setUserEmailConnected] = useState('');
+    const [userId, setUserId] = useState('');
 
-    const login = () => {
-      localStorage.setItem("token", localStorage.getItem("token"));
+    const login = (email, id) => {
+      // localStorage.setItem("token", localStorage.getItem("token"));
+      setUserEmailConnected(email);
+      setUserId(id);
       setIsLoggedIn(true);
+      localStorage.setItem("user", JSON.stringify({email : email, id: id}))
     };
   
     const logout = () => {
-      localStorage.removeItem("token");
+      // localStorage.removeItem("token");
       setIsLoggedIn(false);
     };
 
@@ -29,7 +34,12 @@ export const UserContextProvider = ( {children} ) => {
         // setToken,
         login,
         isLoggedIn,
-        logout
+        logout,
+        userEmailConnected,
+        setUserEmailConnected,
+        setUserId,
+        userId
+
     }
 
     return <UserContext.Provider value={values}>{children}</UserContext.Provider>

@@ -1,6 +1,8 @@
 const User = require('../models/user-schema')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const { createToken, validateToken } = require('../utils/Jwt');
+const cookieParser = require("cookie-parser");
 
 const login = async (req, res) => {
         // const saltRounds = 10;
@@ -16,8 +18,16 @@ const login = async (req, res) => {
             if (findUser) {
                 const checkPassword = bcrypt.compareSync(req.body.password, findUser.password);
                 if (checkPassword) {
-                    const token = await jwt.sign({ email: req.body.email, id: findUser._id }, process.env['JWT_SECRET_KEY'], { expiresIn: '1h' })
-                    res.json({ status: 'ok', token: token })
+                    // const token = await jwt.sign({ email: req.body.email, id: findUser._id }, process.env['JWT_SECRET_KEY'], { expiresIn: '1h' })
+                    // res.json({ status: 'ok', token: token })
+                    const token = await createToken(req.body.email, findUser._id);
+                    res.cookie("access_token", token, {
+                        maxAge: 60 * 60 * 24 * 30 * 1000,
+                        httpOnly: true
+                    })
+                    // console.log(token)
+                    res.json({status: "ok", email: req.body.email, id: findUser._id});
+                    
                 } else {
                     res.json({ error: 'bad credentials' });
                 }
@@ -92,17 +102,17 @@ const showProfile = async (req, res) => {
 }
 
 const editProfile = async (req, res) => {
-    console.log("launched")
+    console.log("editprofile launched")
+
     try {
-        // const currentUser = await User.findOne({ email: req.params.email });
-        // console.log(req.headers.authorization)
-        const splitToken = req.headers.authorization.split(' ')
-        const token = splitToken[1]
-        const decoded = jwt.verify(token, process.env['JWT_SECRET_KEY'])
-        console.log(decoded)
+        // const splitToken = req.headers.authorization.split(' ')
+        // const token = splitToken[1]
+        // const decoded = jwt.verify(token, process.env['JWT_SECRET_KEY'])
+        // console.log(decoded)
         //const email = decoded.email;
         // console.log(email)
-        if (decoded.email) {
+
+        if (req.body.email) {
             if (req.body.password) {
                 const saltRounds = 10;
                 const salt = bcrypt.genSaltSync(saltRounds);
@@ -119,16 +129,6 @@ const editProfile = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-
-    // const { email } = req.params.email;
-    // console.log("email: " + email)
-    // try {
-    //     res.json(quote);
-    // } catch (error) {
-    //     return res.json({ error: error });
-    // }
-
-    //res.json('access to home root');
 }
 
 const findUserById = async (req, res) => {
