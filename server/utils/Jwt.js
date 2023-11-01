@@ -16,7 +16,6 @@ const validateToken = async (req, res, next) => {
         if(validToken){
             req.authenticated = true;
             return next();
-
         }
     } catch (error) {
         res.status(400).json({error: error.message});

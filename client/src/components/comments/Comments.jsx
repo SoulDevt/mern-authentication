@@ -6,7 +6,7 @@ const Comments = ({comment}) => {
 
   const fetchUserById = async () => {
     try {
-        await axios.get(`${import.meta.env.VITE_API_URL}/users/infos/${comment.userId}`)
+        await axios.get(`${import.meta.env.VITE_API_URL}/users/infos/${comment.userId}`, {withCredentials: true})
         .then((response) => {
             setUsername(response.data.name)
         })

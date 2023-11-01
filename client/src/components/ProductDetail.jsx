@@ -14,11 +14,16 @@ const ProductDetail = () => {
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
     // const { token, setToken } = useContext(UserContext)
-    let token = localStorage.getItem('token')
-    const decodedToken = jwtDecode(token)
+    // let token = localStorage.getItem('token')
+    // const decodedToken = jwtDecode(token)
 
-    // console.log(decodedToken)
-    const { id } = useParams()
+    // // console.log(decodedToken)
+    const userString = localStorage.getItem("user");
+    let user;
+    if (userString) {
+      user = JSON.parse(userString);
+    }
+     const { id } = useParams()
 
     const fetchComments = async () => {
         try {
@@ -71,7 +76,7 @@ const ProductDetail = () => {
     const handleComment = async () => {
         try {
             //console.log(import.meta.env.VITE_API_URL)
-            await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, {comment, id, userId: decodedToken.id})
+            await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, {comment, id, userId: user.id}, {withCredentials: true})
             .then((response) => {
                 console.log(response);
                 // setAllComments
@@ -99,19 +104,13 @@ const ProductDetail = () => {
         <button onClick={() => addItemToCart(id)}>Add to Cart{cartItems[id] > 0 ? "(" + cartItems[id] + ")" : null}</button>
         
         <h2>Comments</h2>
-        {token ? 
-            (
                 <>
                 <p>Laisser un commentaire</p>
                 <textarea name="" id="" cols="30" rows="10" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
                 <button onClick={handleComment}>Submit</button>
                 </>
-            ) 
-        : 
-            (
+
                 <p><Link to="/"><i>Log in if you want to comment</i></Link></p>
-            )
-        }
 
         {
             allComments ? (

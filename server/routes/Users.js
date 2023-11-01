@@ -7,6 +7,6 @@ router.post('/login', login);
 router.post('/register', register);
 router.get('/users/:email', validateToken, showProfile);
 router.put('/users/:email', validateToken, editProfile);
-router.get('/users/infos/:id', findUserById);
+router.get('/users/infos/:id', validateToken, findUserById);
 
 module.exports = router;

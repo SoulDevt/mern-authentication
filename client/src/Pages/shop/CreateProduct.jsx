@@ -23,12 +23,12 @@ const CreateProduct = () => {
     e.preventDefault();
     console.log(formData);
     // Envoyez les données du formulaire ou effectuez toute autre action nécessaire ici
-    await axios.post(`${import.meta.env.VITE_API_URL}/shop/create-product`, formData)
+    await axios.post(`${import.meta.env.VITE_API_URL}/shop/create-product`, formData, {withCredentials: true})
     .then((response) => {
         console.log(response);
     })
     .catch((error) => {
-        console.log("Failed to create product");
+        console.log(error);
     })
 
     };
