@@ -11,7 +11,7 @@ function Login() {
   const [password, setPassword] = useState('')
   // const { token, setToken } = useContext(UserContext)
   const { login, userEmailConnected, setUserId, setUserEmailConnected, userId } = useContext(UserContext)
-  const tokenStorage = localStorage.getItem('token')
+  const tokenStorage = localStorage.getItem('user')
 
   const navigate = useNavigate();
 

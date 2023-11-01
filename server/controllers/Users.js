@@ -142,10 +142,15 @@ const findUserById = async (req, res) => {
     }
 }
 
+const logout = async (req, res) => {
+    res.clearCookie('access_token').json({success: "logout successfully"})
+}
+
 module.exports = {
     login,
     register,
     showProfile,
     editProfile,
-    findUserById
+    findUserById,
+    logout
 }

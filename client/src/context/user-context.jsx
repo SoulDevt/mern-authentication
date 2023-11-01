@@ -12,7 +12,7 @@ export const UserContextProvider = ( {children} ) => {
     //     }
     // },[])
 
-    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user"));
     const [userEmailConnected, setUserEmailConnected] = useState('');
     const [userId, setUserId] = useState('');
 
@@ -25,7 +25,7 @@ export const UserContextProvider = ( {children} ) => {
     };
   
     const logout = () => {
-      // localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setIsLoggedIn(false);
     };
 
