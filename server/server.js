@@ -56,7 +56,8 @@ mongoose.connect(process.env['MONGO_URI'], { useNewUrlParser: true, useUnifiedTo
 app.use(express.json());
 app.use(cors({
   credentials: true,
-  origin: process.env['FRONTEND']
+  // origin: process.env['FRONTEND']
+  origin: "https://mern-authentication-sigma.vercel.app"
 }));
 app.use(cookieParser())
 
