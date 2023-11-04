@@ -54,12 +54,16 @@ const Navbar = () => {
         {
           isLogged ? 
           (
-            <Link className='block mt-4 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600' onClick={handleLogout}>Logout</Link> 
+            <>
+              <Link to="/dashboard" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Dashboard</Link> 
+              <Link to="/wishlist" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Wishlist</Link> 
+              <Link className='block mt-4 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600' onClick={handleLogout}>Logout</Link> 
+            </>
           ) :
           (
             <>
-            <Link to="/" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Login</Link> 
-            <Link to="/register" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Register</Link> 
+              <Link to="/" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Login</Link> 
+              <Link to="/register" className='block mt-4 mr-10 text-blue-900 lg:inline-block lg:mt-0 hover:text-indigo-600'>Register</Link> 
             </>
           )
         }

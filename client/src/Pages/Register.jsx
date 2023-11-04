@@ -33,22 +33,6 @@ function Register() {
 
   return (
     <>
-      {/* <div>
-        <form action="" onSubmit={handleSubmit}>
-          <h1>Register</h1>
-          <label htmlFor="">Name</label>
-          <input type="text" onChange={(e) => setName(e.target.value)} />
-          <br />
-          <label htmlFor="">Email</label>
-          <input type="text" onChange={(e) => setEmail(e.target.value)} />
-          <br />
-          <label htmlFor="">Password</label>
-          <input type="password" autoComplete="on" onChange={(e) => setPassword(e.target.value)} />
-          <br />
-          <input type="submit" value="Register" />
-        </form>
-      </div> */}
-
       <ProtectedRoute condition={tokenStorage} redirectTo={"/shop"}>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

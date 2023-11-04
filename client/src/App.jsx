@@ -13,6 +13,8 @@ import CreateProduct from './Pages/shop/CreateProduct'
 import Success from './Pages/payment/Success'
 import Cancel from './Pages/payment/Cancel'
 import Shop from './Pages/shop/Shop'
+import Wishlist from './Pages/wishlist/Wishlist'
+import page404 from './Pages/page404/page404'
 
 
 function App() {
@@ -29,8 +31,10 @@ function App() {
             <Route path="/cart" Component={Cart} />
             <Route path="/product/:id" Component={ProductDetail} />
             <Route path="/product/create-product" Component={CreateProduct} />
+            <Route path="/wishlist" Component={Wishlist} />
             <Route path="/checkout/success" Component={Success} />
             <Route path="/checkout/cancel" Component={Cancel} />
+            <Route path="*" Component={page404} />
           </Routes>
         </BrowserRouter>
       </ShopContextProvider>

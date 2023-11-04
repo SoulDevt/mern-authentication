@@ -13,11 +13,6 @@ const ProductDetail = () => {
     const [product, setProduct] = useState(null)
     const [comment, setComment] = useState('')
     const [allComments, setAllComments] = useState([])
-    // const { token, setToken } = useContext(UserContext)
-    // let token = localStorage.getItem('token')
-    // const decodedToken = jwtDecode(token)
-
-    // // console.log(decodedToken)
     const userString = localStorage.getItem("user");
     let user;
     if (userString) {
@@ -29,14 +24,8 @@ const ProductDetail = () => {
         try {
             await axios.get(`${import.meta.env.VITE_API_URL}/products/comments`)
             .then((response) => {
-                // console.log(response.data)
                 const getComments = response.data.filter((comment) => comment.productId === id)
-                //console.log(getComments)
                 setAllComments(getComments)
-                // console.log("launched comments")
-                // console.log(getComments)
-                // allCommentsFiltered = getComments;
-                // console.log(allCommentsFiltered)
                 return getComments;
             })
         } catch (error) {
@@ -46,18 +35,11 @@ const ProductDetail = () => {
 
     useEffect(() => {
         const fetchProduct = async() => {
-            // const currentProduct = await products.find(product => product._id === id)
-            // //console.log(currentProduct)
-            // console.log(products)
-            // if(currentProduct) {
-            //     await setProduct(currentProduct)
-            // } else {
-            //     console.log('Product not found')
-            // }
             try {
                 await axios.get(`${import.meta.env.VITE_API_URL}/product/${id}`)
                 .then((response) => {
-                    setProduct(response.data)
+                    setProduct(response.data);
+                    console.log(response.data)
                 })
                 .catch((error) => {
                     console.log(error.response.data)
@@ -75,16 +57,11 @@ const ProductDetail = () => {
 
     const handleComment = async () => {
         try {
-            //console.log(import.meta.env.VITE_API_URL)
             await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, {comment, id, userId: user.id}, {withCredentials: true})
             .then((response) => {
                 console.log(response);
-                // setAllComments
                 setComment('');
                 fetchComments();
-                // console.log(allCommentsFiltered);
-                // setAllComments(fetchComments())
-                // console.log(allComments);
             })
             .catch((error) => {
                 console.log(error)
@@ -93,15 +70,13 @@ const ProductDetail = () => {
             console.log(error)
         }
     }
-    // console.log("comment content:" + comment)
-
-    //console.log(allComments)
   return (
     <div>
         <h1>{product?.name}</h1>
         <p>{product?.description}</p>
         <p>{product?.price}</p>
-        <button onClick={() => addItemToCart(id)}>Add to Cart{cartItems[id] > 0 ? "(" + cartItems[id] + ")" : null}</button>
+        <button onClick={() => addItemToCart(id)}>Add to Cart{cartItems[id] > 0 ? "(" + cartItems[id] + ")" : null}</button><br />
+        <button onClick={() => addItemToCart(id)}>Add to my Wishlist</button>
         
         <h2>Comments</h2>
                 <>

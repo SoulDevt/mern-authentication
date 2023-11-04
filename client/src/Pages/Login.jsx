@@ -9,7 +9,6 @@ function Login() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const { token, setToken } = useContext(UserContext)
   const { login, userEmailConnected, setUserId, setUserEmailConnected, userId } = useContext(UserContext)
   const tokenStorage = localStorage.getItem('user')
 
@@ -23,8 +22,6 @@ function Login() {
         .then((response) => {
           if (response.data.status == "ok") {
             const { email, id } = response.data;
-            // setUserEmailConnected(response.data.email);
-            // setUserId(response.data.id);
             login(email, id)
             navigate("/dashboard");
             console.log(response.data)
@@ -42,17 +39,6 @@ function Login() {
 
   return (
     <>
-      {/* <div>
-        <form action="" onSubmit={handleSubmit}>
-          <h1 className="text-3xl font-bold underline">Login</h1>
-          <label htmlFor="">Email</label>
-          <input type="text" onChange={(e) => setEmail(e.target.value)} />
-          <label htmlFor="">Password</label>
-          <input type="text" onChange={(e) => setPassword(e.target.value)} />
-          <input type="submit" value="Login" />
-        </form>
-        <Link to="/register">Create an account</Link>
-      </div> */}
       <ProtectedRoute condition={tokenStorage} redirectTo={"/shop"}>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
