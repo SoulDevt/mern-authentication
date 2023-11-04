@@ -70,13 +70,21 @@ const ProductDetail = () => {
             console.log(error)
         }
     }
+
+    const addItemToWishlist = async () => {
+        try {
+            axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, {productId: id, userId: user.id});
+        } catch (error) {
+            console.log(error)
+        }
+    }
   return (
     <div>
         <h1>{product?.name}</h1>
         <p>{product?.description}</p>
         <p>{product?.price}</p>
         <button onClick={() => addItemToCart(id)}>Add to Cart{cartItems[id] > 0 ? "(" + cartItems[id] + ")" : null}</button><br />
-        <button onClick={() => addItemToCart(id)}>Add to my Wishlist</button>
+        <button onClick={() => addItemToWishlist()}>Add to my Wishlist</button>
         
         <h2>Comments</h2>
                 <>

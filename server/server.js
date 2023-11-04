@@ -22,6 +22,7 @@ const productRoutes = require('./routes/Product')
 const commentRoutes = require('./routes/Comment')
 
 
+
 //swagger
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
@@ -106,6 +107,7 @@ app.use(userRoutes)
 app.use(productRoutes)
 //product routes
 app.use(commentRoutes)
+
 
 //Stripe Routes
 app.post('/checkout', async (req, res) => {

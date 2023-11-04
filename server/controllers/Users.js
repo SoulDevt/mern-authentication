@@ -3,13 +3,9 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const { createToken, validateToken } = require('../utils/Jwt');
 const cookieParser = require("cookie-parser");
+const Product = require('../models/product-model');
 
 const login = async (req, res) => {
-        // const saltRounds = 10;
-        // const salt = bcrypt.genSaltSync(saltRounds);
-        //const hashPassword = bcrypt.hashSync(req.body.password, salt);
-        // console.log(checkUser.password)
-        // check if there is email or password
         if (!req.body.email || !req.body.password) {
             return res.status(400).json('Email and password are required.');
         }
@@ -146,11 +142,50 @@ const logout = async (req, res) => {
     res.clearCookie('access_token').json({success: "logout successfully"})
 }
 
+const addToWishlist = async (req, res) => {
+    const { userId, productId } = req.body;
+
+    try {
+      // Recherche de l'utilisateur par ID
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      // Recherche du produit par ID
+      const product = await Product.findById(productId);
+  
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+  
+      // Vérifie si le produit est déjà dans la liste de souhaits de l'utilisateur
+      const isProductInWishlist = user.wishlist.some((wishlistProduct) =>
+        wishlistProduct.equals(product._id)
+      );
+  
+      if (isProductInWishlist) {
+        return res.json({ message: 'Product is already in the wishlist' });
+      }
+  
+      // Ajout du produit à la liste de souhaits de l'utilisateur
+      user.wishlist.push(product);
+      await user.save();
+  
+      res.json({ message: 'Product added to the wishlist' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error while trying to add the product to your wishlist" });
+    }
+}
+
 module.exports = {
     login,
     register,
     showProfile,
     editProfile,
     findUserById,
-    logout
+    logout,
+    addToWishlist
 }
