@@ -73,7 +73,10 @@ const ProductDetail = () => {
 
     const addItemToWishlist = async () => {
         try {
-            axios.post(`${import.meta.env.VITE_API_URL}/wishlist`, {productId: id, userId: user.id});
+            await axios.post(`${import.meta.env.VITE_API_URL}/wishlist/add`, {productId: id, userId: user.id}, {withCredentials: true})
+            .then((response) => {
+                console.log(response.data);
+            });
         } catch (error) {
             console.log(error)
         }

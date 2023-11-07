@@ -6,42 +6,42 @@ const cookieParser = require("cookie-parser");
 const Product = require('../models/product-model');
 
 const login = async (req, res) => {
-        if (!req.body.email || !req.body.password) {
-            return res.status(400).json('Email and password are required.');
-        }
-        try {
-            const findUser = await User.findOne({ email: req.body.email });
-            if (findUser) {
-                const checkPassword = bcrypt.compareSync(req.body.password, findUser.password);
-                if (checkPassword) {
-                    // const token = await jwt.sign({ email: req.body.email, id: findUser._id }, process.env['JWT_SECRET_KEY'], { expiresIn: '1h' })
-                    // res.json({ status: 'ok', token: token })
-                    const token = await createToken(req.body.email, findUser._id);
-                    res.cookie("access_token", token, {
-                        maxAge: 60 * 60 * 24 * 30 * 1000,
-                        httpOnly: true
-                    })
-                    // console.log(token)
-                    res.json({status: "ok", email: req.body.email, id: findUser._id});
-                    
-                } else {
-                    res.json({ error: 'bad credentials' });
-                }
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).json('Email and password are required.');
+    }
+    try {
+        const findUser = await User.findOne({ email: req.body.email });
+        if (findUser) {
+            const checkPassword = bcrypt.compareSync(req.body.password, findUser.password);
+            if (checkPassword) {
+                // const token = await jwt.sign({ email: req.body.email, id: findUser._id }, process.env['JWT_SECRET_KEY'], { expiresIn: '1h' })
+                // res.json({ status: 'ok', token: token })
+                const token = await createToken(req.body.email, findUser._id);
+                res.cookie("access_token", token, {
+                    maxAge: 60 * 60 * 24 * 30 * 1000,
+                    httpOnly: true
+                })
+                // console.log(token)
+                res.json({ status: "ok", email: req.body.email, id: findUser._id });
+
             } else {
-                res.status(401).json({ error: 'User doesnt exist' });
+                res.json({ error: 'bad credentials' });
             }
-            // console.log(checkPassword);
-            // const user = await User.findOne({ email: req.body.email, password: req.body.password });
-    
-            // if (user) {
-            //     const token = await jwt.sign({ email: req.body.email, name: req.body.name }, process.env['JWT_SECRET_KEY'])
-            //     res.json({ status: 'ok', token: token })
-            // } else {
-            //     res.json({ error: 'bad credentials' });
-            // }
-        } catch (error) {
-            return console.error(error);
+        } else {
+            res.status(401).json({ error: 'User doesnt exist' });
         }
+        // console.log(checkPassword);
+        // const user = await User.findOne({ email: req.body.email, password: req.body.password });
+
+        // if (user) {
+        //     const token = await jwt.sign({ email: req.body.email, name: req.body.name }, process.env['JWT_SECRET_KEY'])
+        //     res.json({ status: 'ok', token: token })
+        // } else {
+        //     res.json({ error: 'bad credentials' });
+        // }
+    } catch (error) {
+        return console.error(error);
+    }
 }
 
 const register = async (req, res) => {
@@ -119,7 +119,7 @@ const editProfile = async (req, res) => {
                 await User.findOneAndUpdate({ email: req.params.email }, { name: req.body.name, email: req.body.email });
                 res.status(200).json("Updated successfully")
             }
-            
+
             //res.json({ email: req.params.email, name: currentUser.name });
         }
     } catch (error) {
@@ -139,45 +139,74 @@ const findUserById = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-    res.clearCookie('access_token').json({success: "logout successfully"})
+    res.clearCookie('access_token').json({ success: "logout successfully" })
 }
 
 const addToWishlist = async (req, res) => {
     const { userId, productId } = req.body;
 
     try {
-      // Recherche de l'utilisateur par ID
-      const user = await User.findById(userId);
-  
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      // Recherche du produit par ID
-      const product = await Product.findById(productId);
-  
-      if (!product) {
-        return res.status(404).json({ error: 'Product not found' });
-      }
-  
-      // Vérifie si le produit est déjà dans la liste de souhaits de l'utilisateur
-      const isProductInWishlist = user.wishlist.some((wishlistProduct) =>
-        wishlistProduct.equals(product._id)
-      );
-  
-      if (isProductInWishlist) {
-        return res.json({ message: 'Product is already in the wishlist' });
-      }
-  
-      // Ajout du produit à la liste de souhaits de l'utilisateur
-      user.wishlist.push(product);
-      await user.save();
-  
-      res.json({ message: 'Product added to the wishlist' });
+        // Recherche de l'utilisateur par ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Recherche du produit par ID
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        // Vérifie si le produit est déjà dans la liste de souhaits de l'utilisateur
+        const isProductInWishlist = user.wishlist.some((wishlistProduct) =>
+            wishlistProduct.equals(product._id)
+        );
+
+        if (isProductInWishlist) {
+            return res.json({ message: 'Product is already in the wishlist' });
+        }
+
+        // Ajout du produit à la liste de souhaits de l'utilisateur
+        user.wishlist.push(product);
+        await user.save();
+
+        res.json({ message: 'Product added to the wishlist' });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error while trying to add the product to your wishlist" });
+        console.error(error);
+        res.status(500).json({ error: "Error while trying to add the product to your wishlist" });
     }
+}
+
+const getWishlist = async (req, res) => {
+    try {
+        const userId = req.params.userId; // Remplacez par l'ID de l'utilisateur dont vous voulez récupérer la wishlist
+
+        const user = await User.findById(userId).populate('wishlist'); // Utilisez le nom de la référence dans le modèle User
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Maintenant, user.wishlist contiendra les données des produits
+        console.log(user.wishlist);
+        res.json(user.wishlist);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error while trying to get the user's wishlist" });
+    }
+}
+
+const deleteFromWishlist = async (req, res) => {
+    const productToRemoveId = 'id of the product'
+    const updatedWishlist = user.wishlist.filter(productId => !productId.equals(productToRemoveId));
+
+    user.wishlist = updatedWishlist; // Mettez à jour la wishlist de l'utilisateur
+
+    // Enregistrez les modifications de l'utilisateur dans la base de données (selon le modèle de votre application)
+    await user.save(); // Utilisez la méthode save() pour enregistrer les modifications
 }
 
 module.exports = {
@@ -187,5 +216,6 @@ module.exports = {
     editProfile,
     findUserById,
     logout,
-    addToWishlist
+    addToWishlist,
+    getWishlist
 }
