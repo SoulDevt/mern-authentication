@@ -34,27 +34,74 @@ const CreateProduct = () => {
     };
 
   return (
-    <div>
-        <h1>Create product</h1>
-        <form action="" onSubmit={handleSubmit}>
-            <label htmlFor="">Name</label>
-            <input type="text" name="name" onChange={handleChange} />
-            <br />
-            <label htmlFor="">Description</label>
-            <textarea type="text" name="description" onChange={handleChange} />
-            <br />
-            <label htmlFor="">Price</label>
-            <input type="number" autoComplete="on" name="price" onChange={handleChange} />
-            <br />
-            <label htmlFor="">Categories</label>
-            <input type="text" autoComplete="on" name="categories" onChange={handleChange} />
-            <br />
-            <label htmlFor="">Image</label>
-            <input type="text" autoComplete="on" name="img" onChange={handleChange} />
-            <br />
-            <input type="submit" value="Create" />
-        </form>
-    </div>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="bg-white shadow-md p-4 rounded-lg">
+        <h1 className="text-3xl font-semibold text-gray-800 mb-4">Create Product</h1>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label htmlFor="name" className="text-sm font-medium text-gray-600">
+          Product Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          onChange={handleChange}
+          className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-400"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="description" className="text-sm font-medium text-gray-600">
+          Product Description
+        </label>
+        <textarea
+          type="text"
+          name="description"
+          onChange={handleChange}
+          className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-400"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="price" className="text-sm font-medium text-gray-600">
+          Product Price
+        </label>
+        <input
+          type="number"
+          name="price"
+          onChange={handleChange}
+          className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-400"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="categories" className="text-sm font-medium text-gray-600">
+          Categories
+        </label>
+        <input
+          type="text"
+          name="categories"
+          onChange={handleChange}
+          className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-400"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="img" className="text-sm font-medium text-gray-600">
+          Product Image URL
+        </label>
+        <input
+          type="text"
+          name="img"
+          onChange={handleChange}
+          className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-400"
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Create Product
+      </button>
+    </form>
+  </div>
+  </div>
   )
 }
 
