@@ -199,14 +199,33 @@ const getWishlist = async (req, res) => {
     }
 }
 
-const deleteFromWishlist = async (req, res) => {
-    const productToRemoveId = 'id of the product'
-    const updatedWishlist = user.wishlist.filter(productId => !productId.equals(productToRemoveId));
+const updateWishlist = async (req, res) => {
+    const productToRemoveId = req.params.productId;
+    const userId = req.body.userId;
+    try {
+        // Recherche de l'utilisateur par ID
+        const userCheck = await User.findById(userId);
+        if(!userCheck) {
+            return res.status(404).json({ error: 'User not found' });
+        }
 
-    user.wishlist = updatedWishlist; // Mettez à jour la wishlist de l'utilisateur
+        //check Product
+        const product = await Product.findById(productToRemoveId);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
 
-    // Enregistrez les modifications de l'utilisateur dans la base de données (selon le modèle de votre application)
-    await user.save(); // Utilisez la méthode save() pour enregistrer les modifications
+        const user = await User.findById(userId).populate('wishlist');
+        const updatedWishlist = user.wishlist.filter(productId => !productId.equals(productToRemoveId));
+    
+        user.wishlist = updatedWishlist; // Mettez à jour la wishlist de l'utilisateur
+    
+        // Enregistrez les modifications de l'utilisateur dans la base de données (selon le modèle de votre application)
+        await user.save(); // Utilisez la méthode save() pour enregistrer les modifications
+        res.json("Wishlist updated successfully")
+    } catch (error) {
+        res.json(error)
+    }
 }
 
 module.exports = {
@@ -217,5 +236,6 @@ module.exports = {
     findUserById,
     logout,
     addToWishlist,
-    getWishlist
+    getWishlist,
+    updateWishlist
 }

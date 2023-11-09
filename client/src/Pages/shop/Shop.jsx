@@ -11,8 +11,6 @@ const Shop = () => {
 
   useEffect(() => {
     try {
-      // debugger;
-      console.log("useEffect front launched")
       const getProducts = async () => {
         await axios.get(`${import.meta.env.VITE_API_URL}/shop`)
           .then((response) => {

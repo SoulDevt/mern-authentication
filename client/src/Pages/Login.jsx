@@ -21,6 +21,7 @@ function Login() {
       await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password }, { withCredentials: true })
         .then((response) => {
           if (response.data.status == "ok") {
+
             const { email, id } = response.data;
             login(email, id)
             navigate("/dashboard");
