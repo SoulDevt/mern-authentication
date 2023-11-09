@@ -50,22 +50,48 @@ const Cart = () => {
   }
 
   return (
-    <div>
-      <h1>Cart</h1>
-      <div className='products'>           
-          {
-              products.map((product, index) => {
-                //console.log(product)
-                if(cartItems[product._id] > 0) {
-                  return <CartItem key={index} product={product} />
-                } 
-              })
-          }
-      </div>
-      <p>Total: {totalAmount}</p>
-      <Link to="/shop">Continue Shopping</Link>
-      <button onClick={handleCheckout}>Checkout</button>
+    // <div>
+    //   <h1>Cart</h1>
+    //   <div className='products'>           
+    //       {
+    //           products.map((product, index) => {
+    //             //console.log(product)
+    //             if(cartItems[product._id] > 0) {
+    //               return <CartItem key={index} product={product} />
+    //             } 
+    //           })
+    //       }
+    //   </div>
+    //   <p>Total: {totalAmount}</p>
+    //   <Link to="/shop">Continue Shopping</Link>
+    //   <button onClick={handleCheckout}>Checkout</button>
+    // </div>
+
+    <div className="container mx-auto p-4">
+    <h1 className="text-3xl font-semibold mb-4">Cart</h1>
+    <div className="grid gap-4">
+           {
+               products.map((product, index) => {
+                 //console.log(product)
+                 if(cartItems[product._id] > 0) {
+                   return <CartItem key={index} product={product} />
+                 } 
+               })
+       }
     </div>
+    <div className="flex justify-between items-center mt-4">
+      <p className="text-xl font-semibold">Total: ${totalAmount}</p>
+      <Link to="/shop" className="text-blue-500 hover:underline">
+        Continue Shopping
+      </Link>
+      <button
+        onClick={handleCheckout}
+        className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+      >
+        Checkout
+      </button>
+    </div>
+  </div>
   )
 }
 

@@ -45,17 +45,54 @@ const Dashboard = () => {
     }    
   }
   return (
-    <div>
-      <h1>Profile: </h1>
-      <form action="" onSubmit={handleUpdate}>
-        <label htmlFor="">Name: </label>
-        <input type="text" name="quote" id="" value={name}  onChange={(e) => setName(e.target.value)} />
-        <label htmlFor="">Email: </label>
-        <input type="text" name="quote" id="" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <label htmlFor="">Password: </label>
-        <input type="text" name="quote" id="" onChange={(e) => setPassword(e.target.value)} />
-        <input type="submit" value="Submit"/>
-      </form>
+    <div className="flex justify-center items-center h-screen">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-96">
+        <h1 className="text-3xl font-semibold mb-4">Profile:</h1>
+        <form onSubmit={handleUpdate} className="space-y-4">
+          <div className="flex flex-col">
+            <label className="text-lg" htmlFor="name">
+              Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="border border-gray-300 rounded p-2"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-lg" htmlFor="email">
+              Email:
+            </label>
+            <input
+              type="text"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border border-gray-300 rounded p-2"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-lg" htmlFor="password">
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border border-gray-300 rounded p-2"
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 cursor-pointer"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
 
   )
