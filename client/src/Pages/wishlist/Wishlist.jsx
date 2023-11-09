@@ -21,14 +21,14 @@ const Wishlist = () => {
         }
     },[])
   return (
-    <div>
-        <h1>Wishlist</h1>
-        {
-            products.map((product, key) => (
-                <WishlistProducts product={product}  key={key} />
-            ))
-        }
+    <>
+    <h1 className="text-2xl font-semibold mb-4">Wishlist</h1>
+    <div className="w-full flex flex-wrap">
+      {products.map((product, key) => (
+        <WishlistProducts product={product} key={key} />
+      ))}
     </div>
+    </>
   )
 }
 
