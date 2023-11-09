@@ -82,34 +82,75 @@ const ProductDetail = () => {
         }
     }
   return (
-    <div>
-        <h1>{product?.name}</h1>
-        <p>{product?.description}</p>
-        <p>{product?.price}</p>
-        <button onClick={() => addItemToCart(id)}>Add to Cart{cartItems[id] > 0 ? "(" + cartItems[id] + ")" : null}</button><br />
-        <button onClick={() => addItemToWishlist()}>Add to my Wishlist</button>
-        
-        <h2>Comments</h2>
-                <>
-                <p>Laisser un commentaire</p>
-                <textarea name="" id="" cols="30" rows="10" value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
-                <button onClick={handleComment}>Submit</button>
-                </>
+    <div className="max-w-screen-xl mx-auto px-4 py-8">
+      {product && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="w-full">
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="w-full h-auto rounded-lg"
+            />
+          </div>
+          <div>
+            <h1 className="text-2xl font-semibold mb-4">{product.name}</h1>
+            <p className="text-gray-600 text-lg">{product.description}</p>
+            <p className="text-lg font-semibold text-indigo-600 mt-4">
+              ${product.price}
+            </p>
+            <div className="mt-6">
+              <button
+                className="px-4 py-2 bg-indigo-600 text-white rounded-md mr-4"
+                onClick={() => addItemToCart(id)}
+              >
+                Add to Cart {cartItems[id] > 0 && `(${cartItems[id]})`}
+              </button>
+              <button
+                className="px-4 py-2 bg-yellow-500 text-white rounded-md"
+                onClick={addItemToWishlist}
+              >
+                Add to Wishlist
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-                <p><Link to="/"><i>Log in if you want to comment</i></Link></p>
-
-        {
-            allComments ? (
-                allComments.map(comment => (
-                    <Comments comment={comment}  key={comment._id}></Comments>
-                ))
-            )
-            :
-            (
-                <p>Il n'y  a pas encore de commentaires pour ce produit</p>
-            )
-        }
-
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-4">Comments</h2>
+        <div className="mb-4">
+          <p className="text-lg font-semibold">Leave a comment</p>
+          <textarea
+            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+            cols="30"
+            rows="5"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></textarea>
+          <button
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md ml-2 text-sm"
+            onClick={handleComment}
+          >
+            Submit
+          </button>
+        </div>
+        <p className="mt-4">
+          <Link to="/">
+            <i className="text-gray-600 text-sm">
+              Log in if you want to comment
+            </i>
+          </Link>
+        </p>
+        {allComments.length > 0 ? (
+          allComments.map((comment) => (
+            <Comments comment={comment} key={comment._id}></Comments>
+          ))
+        ) : (
+          <p className="text-gray-600 text-sm">
+            There are no comments for this product yet.
+          </p>
+        )}
+      </div>
     </div>
   )
 }

@@ -23,9 +23,9 @@ useEffect(() => {
 
 
   return (
-    <div className="comment">
-        <p>Author: {username}</p>
-        <p>{comment.text}</p>
+    <div className="comment border p-4 rounded-md mb-4">
+      <p className="text-lg font-semibold">Author: {username}</p>
+      <p className="text-gray-700 mt-2">{comment.text}</p>
     </div>
   )
 }
