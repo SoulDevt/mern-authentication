@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const WishlistProducts = ({product}) => {
     const userString = localStorage.getItem("user");
@@ -11,9 +13,11 @@ const WishlistProducts = ({product}) => {
         try {
             await axios.put(`${import.meta.env.VITE_API_URL}/wishlist/${product._id}`, {userId: user.id}, {withCredentials: true})
             .then((response) => {
-                console.log(response)
+                console.log(response);
+                toast.success(response.data);
             })
         } catch (error) {
+            toast.error(error)
             console.log(error);
         }
     }
@@ -26,13 +30,14 @@ const WishlistProducts = ({product}) => {
       />
       <h2 className="text-xl font-semibold mt-2">{product.name}</h2>
       <p className="text-gray-500">{product.description}</p>
-      <p className="text-blue-500 font-semibold mt-2">{product.price}</p>
+      <p className="text-blue-500 font-semibold mt-2">{product.price} €</p>
       <button
         onClick={handleDelete}
         className="bg-red-500 text-white px-4 py-2 mt-4 rounded-md"
       >
         Remove from Wishlist
       </button>
+      <ToastContainer />
     </div>
   )
 }

@@ -1,6 +1,9 @@
 import { createContext, useEffect, useState } from 'react';
 import { PRODUCTS } from '../Pages/shop/items';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 export const ShopContext = createContext(null);
@@ -86,6 +89,7 @@ export const ShopContextProvider = ( {children} ) => {
 
     const addItemToCart = (productId) => {
         console.log("addItemToCart launched");
+        toast.success("Product added to cart");
         if (!cartItems[productId]) {
           // Si le produit n'existe pas dans le panier, initialisez-le à 1
           setCartItems((prevState) => ({

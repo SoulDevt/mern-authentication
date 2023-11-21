@@ -3,6 +3,8 @@ import { PRODUCTS } from './items'
 import Product from '../../components/Product'
 import './shop.css'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Shop = () => {
   const [products, setProducts] = useState([])
@@ -11,11 +13,13 @@ const Shop = () => {
 
   useEffect(() => {
     try {
+      toast.loading('Loading products...', { autoClose: false });
       const getProducts = async () => {
         await axios.get(`${import.meta.env.VITE_API_URL}/shop`)
           .then((response) => {
-            setProducts(response.data)
-            setOriginalProducts(response.data)
+            setProducts(response.data);
+            setOriginalProducts(response.data);
+            toast.dismiss();
           })
           .catch(error => {
             console.log("Failed to get products")
@@ -23,6 +27,7 @@ const Shop = () => {
       }
       getProducts();
     } catch (error) {
+      toast.error(error)
       console.log("Failed to get products")
     }
   }, [])
@@ -66,6 +71,7 @@ const Shop = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-center"/>
     </div>
   )
 }

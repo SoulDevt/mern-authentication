@@ -6,6 +6,8 @@ import axios from 'axios'
 import { UserContext } from '../context/user-context'
 import jwtDecode from 'jwt-decode';
 import Comments from './comments/Comments'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ProductDetail = () => {
@@ -37,8 +39,10 @@ const ProductDetail = () => {
 
     const fetchComments = async () => {
         try {
+            toast.loading('Loading comments...', { autoClose: false });
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/products/comments?productId=${id}&page=${currentPage}`);
             setAllComments(response.data);
+            toast.dismiss();
             console.log(response.data)
         } catch (error) {
             console.error(error);
@@ -48,16 +52,20 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
+                toast.loading('Loading product...', { autoClose: false });
                 await axios.get(`${import.meta.env.VITE_API_URL}/product/${id}`)
                     .then((response) => {
                         setProduct(response.data);
+                        toast.dismiss();
                         console.log(response.data)
                     })
                     .catch((error) => {
+                        toast.error(error);
                         console.log(error.response.data)
                     })
             } catch (error) {
                 console.log(error)
+                toast.error(error)
             }
         }
         fetchProduct()
@@ -71,6 +79,7 @@ const ProductDetail = () => {
         try {
             await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, { comment, id, userId: user.id }, { withCredentials: true })
                 .then((response) => {
+                    toast.success(response.data.success);
                     console.log(response);
                     setComment('');
                     fetchComments();
@@ -79,6 +88,7 @@ const ProductDetail = () => {
                     console.log(error)
                 })
         } catch (error) {
+            toast.error(error)
             console.log(error)
         }
     }
@@ -87,6 +97,7 @@ const ProductDetail = () => {
         try {
             await axios.post(`${import.meta.env.VITE_API_URL}/wishlist/add`, { productId: id, userId: user.id }, { withCredentials: true })
                 .then((response) => {
+                    toast.success(response.data.message);
                     console.log(response.data);
                 });
         } catch (error) {
@@ -181,6 +192,7 @@ const ProductDetail = () => {
                     </button>
                 </div>
             </div>
+            <ToastContainer position="top-center"/>
         </div>
     )
 }

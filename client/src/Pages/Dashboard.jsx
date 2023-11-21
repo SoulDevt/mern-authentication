@@ -4,6 +4,8 @@ import { decodeToken } from "react-jwt";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { UserContext } from '../context/user-context';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Dashboard = () => {
   const [name, setName] = useState('')
@@ -26,6 +28,7 @@ const Dashboard = () => {
          setEmail(response.data.email);
         })
       } catch (error) {
+        toast.error(error)
         console.log(error)
       }
 
@@ -38,9 +41,11 @@ const Dashboard = () => {
     try {
       await axios.put(`${import.meta.env.VITE_API_URL}/users/` + email, {name,email,password}, {withCredentials: true})
       .then((response) => {
+        toast.success(response.data);
         console.log(response.data)
       })
     } catch (error) {
+      toast.error(error)
       console.error(error)
     }    
   }
@@ -93,6 +98,7 @@ const Dashboard = () => {
           </button>
         </form>
       </div>
+      <ToastContainer position="top-center"/>
     </div>
 
   )

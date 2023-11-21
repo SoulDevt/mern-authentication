@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import WishlistProducts from './WishlistProducts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Wishlist = () => {
     const [products, setProducts] = useState([])
@@ -11,9 +13,11 @@ const Wishlist = () => {
     }
     useEffect(() => {
         try {
+            toast.loading('Loading your wishlist...', { autoClose: false });
             const getWishlist = async () => {
                 const wishlist = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist/${user.id}`, {withCredentials: true})
                 setProducts(wishlist.data)
+                toast.dismiss();
             }
             getWishlist();
         } catch (error) {
@@ -28,6 +32,7 @@ const Wishlist = () => {
         <WishlistProducts product={product} key={key} />
       ))}
     </div>
+    <ToastContainer position="top-center"/>
     </>
   )
 }

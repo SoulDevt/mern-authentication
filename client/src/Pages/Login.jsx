@@ -6,7 +6,6 @@ import ProtectedRoute from '../components/common/ProtectedRoute'
 
 
 function Login() {
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { login, userEmailConnected, setUserId, setUserEmailConnected, userId } = useContext(UserContext)
@@ -21,7 +20,6 @@ function Login() {
       await axios.post(`${import.meta.env.VITE_API_URL}/login`, { email, password }, { withCredentials: true })
         .then((response) => {
           if (response.data.status == "ok") {
-
             const { email, id } = response.data;
             login(email, id)
             navigate("/dashboard");
