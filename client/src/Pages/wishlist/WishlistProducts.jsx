@@ -13,7 +13,6 @@ const WishlistProducts = ({product}) => {
         try {
             await axios.put(`${import.meta.env.VITE_API_URL}/wishlist/${product._id}`, {userId: user.id}, {withCredentials: true})
             .then((response) => {
-                console.log(response);
                 toast.success(response.data);
             })
         } catch (error) {
