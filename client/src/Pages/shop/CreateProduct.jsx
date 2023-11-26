@@ -24,12 +24,10 @@ const CreateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     // Envoyez les données du formulaire ou effectuez toute autre action nécessaire ici
     await axios.post(`${import.meta.env.VITE_API_URL}/shop/create-product`, formData, { withCredentials: true })
       .then((response) => {
         toast.success(response.data);
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);

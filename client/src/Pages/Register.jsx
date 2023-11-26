@@ -17,9 +17,7 @@ function Register() {
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/register`, { name, email, password })
         .then((response) => {
-          console.log(response.data)
           if (response.status == 200) {
-            console.log(response.data)
             navigate("/")
           } else {
             console.log(response.data)

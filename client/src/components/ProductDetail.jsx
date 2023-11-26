@@ -43,7 +43,6 @@ const ProductDetail = () => {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/products/comments?productId=${id}&page=${currentPage}`);
             setAllComments(response.data);
             toast.dismiss();
-            console.log(response.data)
         } catch (error) {
             console.error(error);
         }
@@ -57,14 +56,11 @@ const ProductDetail = () => {
                     .then((response) => {
                         setProduct(response.data);
                         toast.dismiss();
-                        console.log(response.data)
                     })
                     .catch((error) => {
                         toast.error(error);
-                        console.log(error.response.data)
                     })
             } catch (error) {
-                console.log(error)
                 toast.error(error)
             }
         }
@@ -80,7 +76,6 @@ const ProductDetail = () => {
             await axios.post(`${import.meta.env.VITE_API_URL}/product/create-comment`, { comment, id, userId: user.id }, { withCredentials: true })
                 .then((response) => {
                     toast.success(response.data.success);
-                    console.log(response);
                     setComment('');
                     fetchComments();
                 })
@@ -89,7 +84,6 @@ const ProductDetail = () => {
                 })
         } catch (error) {
             toast.error(error)
-            console.log(error)
         }
     }
 
@@ -98,7 +92,6 @@ const ProductDetail = () => {
             await axios.post(`${import.meta.env.VITE_API_URL}/wishlist/add`, { productId: id, userId: user.id }, { withCredentials: true })
                 .then((response) => {
                     toast.success(response.data.message);
-                    console.log(response.data);
                 });
         } catch (error) {
             console.log(error)

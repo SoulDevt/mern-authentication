@@ -9,7 +9,6 @@ const Comments = ({comment}) => {
         await axios.get(`${import.meta.env.VITE_API_URL}/users/infos/${comment.userId}`, {withCredentials: true})
         .then((response) => {
             setUsername(response.data.name)
-            console.log(response)
         })
     } catch (error) {
         console.log(error)

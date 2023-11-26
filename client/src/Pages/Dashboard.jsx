@@ -23,7 +23,6 @@ const Dashboard = () => {
       try {
         await axios.get(`${import.meta.env.VITE_API_URL}/users/` + user.email, {withCredentials: true})
         .then((response) => {
-         console.log(response.data)
          setName(response.data.name);
          setEmail(response.data.email);
         })
@@ -42,7 +41,6 @@ const Dashboard = () => {
       await axios.put(`${import.meta.env.VITE_API_URL}/users/` + email, {name,email,password}, {withCredentials: true})
       .then((response) => {
         toast.success(response.data);
-        console.log(response.data)
       })
     } catch (error) {
       toast.error(error)

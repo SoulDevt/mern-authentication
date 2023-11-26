@@ -28,7 +28,6 @@ export const ShopContextProvider = ( {children} ) => {
 
     useEffect(() => {
         try {
-          console.log("useEffect context launched")
           const getProducts = async () => {
             await axios.get(`${import.meta.env.VITE_API_URL}/shop`)
             .then((response) => {
@@ -46,17 +45,14 @@ export const ShopContextProvider = ( {children} ) => {
       //console.log(products)
 
     const getTotalCartAmount = () => {
-        console.log("totalamount launched")
         let totalAmount = 0;
         for(const item in cartItems) {
             if(cartItems[item] > 0) {
-                console.log("item:" + item)
                 let itemInfo =  products.find((product) => product._id === item);
                 //console.log(itemInfo)
                 totalAmount += Number(cartItems[item]) * Number(itemInfo.price);
             }
         }
-        console.log(totalAmount)
         return totalAmount;
     }
     
@@ -88,7 +84,6 @@ export const ShopContextProvider = ( {children} ) => {
     //   };
 
     const addItemToCart = (productId) => {
-        console.log("addItemToCart launched");
         toast.success("Product added to cart");
         if (!cartItems[productId]) {
           // Si le produit n'existe pas dans le panier, initialisez-le à 1

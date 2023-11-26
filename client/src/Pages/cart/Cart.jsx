@@ -18,7 +18,6 @@ const Cart = () => {
       for (const productId in cartItems) {
         //console.log(productId)
         const product = products.find((p) => p._id === productId);
-        console.log(product)
         if (product) {
           detailedCartItems.push({
             id: productId,
@@ -36,12 +35,9 @@ const Cart = () => {
   const handleCheckout = async () => {
     try {
       const detailedCartItems = getDetailedCartItems();
-      console.log(detailedCartItems);
-      console.log(cartItems);
       // await axios.post("http://localhost:3001/checkout", cartItems)
       await axios.post(`${import.meta.env.VITE_API_URL}/checkout`, detailedCartItems)
       .then((response) => {
-        console.log(response.data.url)
         window.location.href = response.data.url
       })
     } catch (error) {

@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 const CartItem = ({ product }) => {
   useEffect(() => {
     console.log("launched");
-    console.log("products:" + product)
   }, [])
   const { cartItems, addItemToCart, removeItemToCart, updateItemToCart } = useContext(ShopContext)
   return (

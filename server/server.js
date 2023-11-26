@@ -112,7 +112,6 @@ app.use(commentRoutes)
 //Stripe Routes
 app.post('/checkout', async (req, res) => {
   try {
-    console.log("launched checkout")
     const items = req.body
     const lineItems = []
   

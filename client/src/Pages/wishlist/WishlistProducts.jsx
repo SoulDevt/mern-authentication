@@ -17,7 +17,6 @@ const WishlistProducts = ({product}) => {
             })
         } catch (error) {
             toast.error(error)
-            console.log(error);
         }
     }
   return (
