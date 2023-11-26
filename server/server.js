@@ -130,7 +130,7 @@ app.post('/checkout', async (req, res) => {
   
     console.log(lineItems)
   
-    const YOUR_DOMAIN = "http://localhost:5173/";
+    const YOUR_DOMAIN = "https://mern-authentication-sigma.vercel.app/";
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: 'payment',
