@@ -3,7 +3,7 @@ import React from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const WishlistProducts = ({product}) => {
+const WishlistProducts = ({product, getWishlist}) => {
     const userString = localStorage.getItem("user");
     let user;
     if (userString) {
@@ -13,6 +13,7 @@ const WishlistProducts = ({product}) => {
         try {
             await axios.put(`${import.meta.env.VITE_API_URL}/wishlist/${product._id}`, {userId: user.id}, {withCredentials: true})
             .then((response) => {
+                getWishlist()
                 toast.success(response.data);
             })
         } catch (error) {
