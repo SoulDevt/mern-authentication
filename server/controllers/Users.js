@@ -20,8 +20,8 @@ const login = async (req, res) => {
                 res.cookie("access_token", token, {
                     maxAge: 60 * 60 * 24 * 30 * 1000,
                     httpOnly: true,
-                    sameSite: 'None', // ou 'Lax' selon vos besoins
-                    secure: process.env.NODE_ENV === 'production', // Activer uniquement en production (HTTPS)
+                    // sameSite: 'None', // ou 'Lax' selon vos besoins
+                    // secure: process.env.NODE_ENV === 'production', // Activer uniquement en production (HTTPS)
                 })
                 // console.log(token)
                 res.json({ status: "ok", email: req.body.email, id: findUser._id });

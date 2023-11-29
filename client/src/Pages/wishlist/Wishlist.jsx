@@ -11,14 +11,20 @@ const Wishlist = () => {
     if (userString) {
       user = JSON.parse(userString);
     }
+
+    const getWishlist = async () => {
+      const wishlist = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist/${user.id}`, {withCredentials: true})
+      setProducts(wishlist.data)
+      toast.dismiss();
+    }
     useEffect(() => {
         try {
             toast.loading('Loading your wishlist...', { autoClose: false });
-            const getWishlist = async () => {
-                const wishlist = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist/${user.id}`, {withCredentials: true})
-                setProducts(wishlist.data)
-                toast.dismiss();
-            }
+            // const getWishlist = async () => {
+            //     const wishlist = await axios.get(`${import.meta.env.VITE_API_URL}/wishlist/${user.id}`, {withCredentials: true})
+            //     setProducts(wishlist.data)
+            //     toast.dismiss();
+            // }
             getWishlist();
         } catch (error) {
             console.log(error)
@@ -29,7 +35,7 @@ const Wishlist = () => {
     <h1 className="text-2xl font-semibold mb-4">Wishlist</h1>
     <div className="w-full flex flex-wrap">
       {products.map((product, key) => (
-        <WishlistProducts product={product} key={key} />
+        <WishlistProducts product={product} key={key} getWishlist={getWishlist}/>
       ))}
     </div>
     <ToastContainer position="top-center"/>
